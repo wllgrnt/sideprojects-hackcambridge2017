@@ -40,7 +40,7 @@
 - 1515: SpatialOS
 - 1600: Microsoft Bot Framework
 - 1645: QuantumBlack
-- Studio Gobo
+- 1730: Studio Gobo (Unity)
 - Hackers at Cambridge
 
 1900: Dinner
