@@ -34,5 +34,7 @@ def scale_features( df, sc=StandardScaler() ):
             sc = sc.fit(X.reshape(-1,1))
             X_scaled = sc.transform(X.reshape(-1,1))
             scaled[:,col_num] = X_scaled[:].flatten()
+        else :
+            scaled[:,col_num] = df[df.columns[col_num]].values[:].flatten()
     df_scaled = pd.DataFrame( scaled, df.index, df.columns)
     return df_scaled
