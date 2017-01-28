@@ -1,0 +1,15 @@
+========================
+
+TODO for data processing
+
+========================
+
+> Feature scaling
+    - Many ML algorithms behave better if all training features are roughly of the same scale
+    - see sklearn.preprocessing.StandardScaler or .MinMaxScaler
+
+> Feature selection / Dimensionality reduction
+    - Find which data is redundant/correlated and remove it
+    - Eliminate noise (data which doesn't correlate at all with bankruptcy)
+    - Can find feature importance using sklearn random forest classifier
+    - see LinearDiscriminantAnalysis
