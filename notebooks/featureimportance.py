@@ -2,9 +2,20 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 import numpy as np
+import sys
 
-data = pd.DataFrame.from_csv('../DataFiles/train.csv')
-data = pd.DataFrame.fillna(data, value=0)
+# use a different file if a command line argument is entered
+if len(sys.argv) == 2:
+    data = pd.DataFrame.from_csv(str(sys.argv[1]))
+elif len(sys.argv) == 1:
+    data = pd.DataFrame.from_csv('../DataFiles/train.csv')
+else:
+    print("kill yourself, enter some fucking sensible arguments")
+    sys.exit(0)
+
+# replace NaNs with column means or just zero values
+#data = pd.DataFrame.fillna(data, value=0)
+data = data.fillna(data.mean())
 
 cols = [col for col in data.columns if col != "class"]
 features = data[cols]
