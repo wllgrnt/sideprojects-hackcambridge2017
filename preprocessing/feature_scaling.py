@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 
-def scale_features( df, sc=StandardScaler() ):
+def scale_features( data, sc=StandardScaler() ):
     """
     Algorithms behave better if features are roughly
     of the same scale. This uses a standardisation
@@ -17,24 +17,19 @@ def scale_features( df, sc=StandardScaler() ):
     normalisation, and usually more practical.
 
     Parameters:
-    >   df : pandas dataframe
+    >   data : numpy array (n_samples,n_features)
         Unscaled data
     >   sc : sklearn preprocessing scaler
         The scaling algorithm to use.
         StandardScaler by default
 
     Returns:
-    >   df_scaled : pandas dataframe
+    >   data : numpy array (n_samples,n_features)
         Standardised data
     """
-    scaled = np.zeros([len(df.index),len(df.columns)])
-    for col_num in range(len(df.columns)) :
-        if df[df.columns[col_num]].dtype == np.float :
-            X = df[df.columns[col_num]].values
-            sc = sc.fit(X.reshape(-1,1))
-            X_scaled = sc.transform(X.reshape(-1,1))
-            scaled[:,col_num] = X_scaled[:].flatten()
-        else :
-            scaled[:,col_num] = df[df.columns[col_num]].values[:].flatten()
-    df_scaled = pd.DataFrame( scaled, df.index, df.columns)
-    return df_scaled
+    for col_num in range(data.shape[1]) :
+        X = data[:,col_num]
+        sc = sc.fit(X.reshape(-1,1))
+        X_scaled = sc.transform(X.reshape(-1,1))
+        data[:,col_num] = X_scaled[:].flatten()
+    return data

@@ -10,15 +10,17 @@ from feature_scaling import *
 
 data = pd.DataFrame.from_csv('../DataFiles/train.csv')
 
-data = clean_data(data)
-data = scale_features(data)
-
 cols = [col for col in data.columns if col != "class"]
 features = data[cols]
 bankrupt = data['class']
 
 x_train, x_test, y_train, y_test = train_test_split(
     features, bankrupt, test_size=0.2, random_state=1)
+
+x_train = clean_data(x_train)
+x_test  = clean_data(x_test)
+#x_train = scale_features(x_train)
+#x_test  = scale_features(x_test)
 
 # Create the random forest object which will include all the parameters
 # for the fit

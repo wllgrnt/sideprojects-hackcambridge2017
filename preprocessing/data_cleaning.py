@@ -2,20 +2,18 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import Imputer
 
-def clean_data( df, imp=Imputer(missing_values='NaN', strategy='mean', axis=0) ):
+def clean_data( data, imp=Imputer(missing_values='NaN', strategy='mean', axis=0) ):
     """
     NaN cleaner.
     For all columns, replace NaN with mean values.
 
     Parameters:
-    df  : pandas dataframe
-    imp : Imputer class
+    data : numpy array (n_samples,n_features)
+    imp  : Imputer class
 
     Returns:
-    df  : pandas dataframe
+    clean_data  : numpy array (n_samples,n_features)
     """
-    df = df.fillna(df.mean())
-    #imp = imp.fit( df.values )
-    #imp_data = imp.transform( df.values )
-    #df=df.update(imp_data)
-    return df
+    imp = imp.fit( data )
+    clean_data = imp.transform( data )
+    return clean_data
