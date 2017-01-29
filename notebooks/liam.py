@@ -38,8 +38,8 @@ def bayesian( output, y_test ):
 
 
 
-data = pd.DataFrame.from_csv('../DataFiles/train_withNaN27.csv')
-drop_indices = []
+data = pd.DataFrame.from_csv('../DataFiles/train.csv')
+#drop_indices = []
 #print( 'dropping years <4')
 #for idx in data.index:
 #    if (data['year'].values[idx]<4):
@@ -55,8 +55,18 @@ cols = [col for col in data.columns if col != "class"]
 features = data[cols]
 bankrupt = data['class']
 
-x_train, x_test, y_train, y_test = train_test_split(
-    features, bankrupt, test_size=0.1)
+x_train = features
+y_train = bankrupt
+#x_train, x_test, y_train, y_test = train_test_split(
+#    features, bankrupt, test_size=0.0)
+
+testdata = pd.DataFrame.from_csv('../DataFiles/test.csv')
+cols = [col for col in testdata.columns if col != "class"]
+features = testdata[cols]
+bankrupt = testdata['class']
+
+x_test = features
+y_test = bankrupt
 
 x_train = clean_data(x_train)
 x_test  = clean_data(x_test)
@@ -65,7 +75,7 @@ x_test  = clean_data(x_test)
 
 # Create the random forest object which will include all the parameters
 # for the fit
-cls = GradientBoostingClassifier(n_estimators=1000,     # Number of trees in ensemble
+cls = GradientBoostingClassifier(n_estimators=100,     # Number of trees in ensemble
                                  learning_rate=0.5,
 #                                criterion='gini', # Decision trees maximise information gain
            #                     n_jobs=8,            # Go faster number
@@ -84,6 +94,10 @@ cls = cls.fit(x_train, y_train)
 print('Score: ',cls.score(x_test, y_test))
 output = cls.predict(x_test)
 proba = cls.predict_proba(x_test)
+
+f = open('answers.txt','w')
+for idx in range(len(output)):
+    f.write(str(output[idx])+'\n')
 
 PAB, true_positives, false_negatives = bayesian(output,y_test)
 print('Mean prob of true positives:')

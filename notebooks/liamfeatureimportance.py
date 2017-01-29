@@ -40,6 +40,14 @@ def feature_importance( features, forest):
 
     indices = np.argsort(importances)[::-1]
     indexcols = [features.columns[i] for i in indices]
+
+    #attrs = {}
+    #with open("../DataFiles/column_description.csv") as csvfile:
+    #    for line in csvfile:
+    #        key, value = line.split(",")
+    #        attrs[key.strip()] = value.strip()
+    #for idx in range(len(indexcols)):
+    #    indexcols[idx] = attrs[indexcols[idx]]
     return indexcols
     #print(indexcols)
 
