@@ -6,7 +6,6 @@
 
 import numpy as np
 from sklearn.decomposition import PCA
-from collections import defaultdict
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -19,7 +18,7 @@ class QuantumBlackPCA:
            n_components <int> (DEFAULT: num_columns)
 
     """
-    def __init__(self, data, n_components=None):
+    def __init__(self, data, columns=None, n_components=None):
         """ Construct the PCA and fit.
         """
         self.data = data
@@ -30,20 +29,21 @@ class QuantumBlackPCA:
         for n_comp in self.n_components:
             self.pca[n_comp] = PCA(n_components=n_comp)
             self.pca[n_comp].fit(self.data)
-        self.columns = self.data.columns
+        if columns is None:
+            self.columns = self.data.columns
         self.max_key = max(self.n_components)
         # explained variance ratios
         self.cum_explained_variance_ratio = np.cumsum(self.pca[self.max_key].explained_variance_ratio_)
 
-        self.total_weights = dict()
-        self.columns = dict()
-        for key in self.pca:
-            self.total_weights[key] = np.zeros((len(self.data.columns)))
-            self.columns[key] = np.asarray(self.data.columns)
-            for component in self.pca[key].components_:
-                self.total_weights[key] += component
-            self.columns[key] = self.columns[key][np.argsort(np.abs(self.total_weights[key]))]
-            self.total_weights[key] = np.sort(np.abs(self.total_weights[key]))
+        # self.total_weights = dict()
+        # self.columns = dict()
+        # for key in self.pca:
+            # self.total_weights[key] = np.zeros((len(self.data.columns)))
+            # self.columns[key] = np.asarray(self.data.columns)
+            # for component in self.pca[key].components_:
+                # self.total_weights[key] += component
+            # self.columns[key] = self.columns[key][np.argsort(np.abs(self.total_weights[key]))]
+            # self.total_weights[key] = np.sort(np.abs(self.total_weights[key]))
 
     def get_derived_dataframe(self, num_components):
         """ Return a pd.DataFrame with the derived components,
