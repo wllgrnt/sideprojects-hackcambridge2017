@@ -35,15 +35,15 @@ class QuantumBlackPCA:
         # explained variance ratios
         self.cum_explained_variance_ratio = np.cumsum(self.pca[self.max_key].explained_variance_ratio_)
 
-        # self.total_weights = dict()
-        # self.columns = dict()
-        # for key in self.pca:
-            # self.total_weights[key] = np.zeros((len(self.data.columns)))
-            # self.columns[key] = np.asarray(self.data.columns)
-            # for component in self.pca[key].components_:
-                # self.total_weights[key] += component
-            # self.columns[key] = self.columns[key][np.argsort(np.abs(self.total_weights[key]))]
-            # self.total_weights[key] = np.sort(np.abs(self.total_weights[key]))
+        self.total_weights = dict()
+        self.columns = dict()
+        for key in self.pca:
+            self.total_weights[key] = np.zeros((len(self.data.columns)))
+            self.columns[key] = np.asarray(self.data.columns)
+            for component in self.pca[key].components_:
+                self.total_weights[key] += component
+            self.columns[key] = self.columns[key][np.argsort(np.abs(self.total_weights[key]))]
+            self.total_weights[key] = np.sort(np.abs(self.total_weights[key]))
 
     def get_derived_dataframe(self, num_components):
         """ Return a pd.DataFrame with the derived components,
