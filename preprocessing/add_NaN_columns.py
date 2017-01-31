@@ -9,8 +9,8 @@ missing.rename(columns={x: x+"_Nans" for x in missing.columns}, inplace=True)
 data_withNaNs = pd.concat([data, missing], axis='col')
 
 # generate a DataFrame of the total NaNs per index and add it on
-# NaN_total = pd.DataFrame({"Total_NaNs":missing.sum(axis=1)})
-# data_withNaNs = pd.concat([data_withNaNs,NaN_total], axis='col')
+NaN_total = pd.DataFrame({"Total_NaNs":missing.sum(axis=1)})
+data_withNaNs = pd.concat([data_withNaNs,NaN_total], axis='col')
 
 # output the resulting 131 columns DataFrame as a csv
 data_withNaNs.to_csv("../DataFiles/train_withNaNinfo.csv")
